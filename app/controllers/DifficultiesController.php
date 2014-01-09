@@ -1,6 +1,8 @@
 <?php
 
-class DifficultiesController extends BaseController {
+use Jeopardy\Transformers\DifficultyTransformer;
+
+class DifficultiesController extends ApiController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,7 +11,9 @@ class DifficultiesController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('difficulties.index');
+		$difficulties = Difficulty::take(10)->get();
+
+		return $this->respondWithCollection($difficulties, new DifficultyTransformer);
 	}
 
 	/**
@@ -19,7 +23,7 @@ class DifficultiesController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('difficulties.create');
+		//
 	}
 
 	/**
@@ -40,7 +44,13 @@ class DifficultiesController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('difficulties.show');
+		$difficulty = Difficulty::find($id);
+
+		if (! $difficulty) {
+			return $this->errorNotFound('Did you just invent an ID and try loading a difficulty? Muppet.');
+		}
+
+		return $this->respondWithItem($difficulty, new DifficultyTransformer);
 	}
 
 	/**
@@ -51,7 +61,7 @@ class DifficultiesController extends BaseController {
 	 */
 	public function edit($id)
 	{
-        return View::make('difficulties.edit');
+		//
 	}
 
 	/**

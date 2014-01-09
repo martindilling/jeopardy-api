@@ -1,6 +1,8 @@
 <?php
 
-class CategoriesController extends BaseController {
+use Jeopardy\Transformers\CategoryTransformer;
+
+class CategoriesController extends ApiController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,7 +11,9 @@ class CategoriesController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('categories.index');
+		$categories = Category::take(10)->get();
+
+		return $this->respondWithCollection($categories, new CategoryTransformer);
 	}
 
 	/**
@@ -19,7 +23,7 @@ class CategoriesController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('categories.create');
+		//
 	}
 
 	/**
@@ -40,7 +44,13 @@ class CategoriesController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('categories.show');
+		$category = Category::find($id);
+
+		if (! $category) {
+			return $this->errorNotFound('Did you just invent an ID and try loading a category? Muppet.');
+		}
+
+		return $this->respondWithItem($category, new CategoryTransformer);
 	}
 
 	/**
@@ -51,7 +61,7 @@ class CategoriesController extends BaseController {
 	 */
 	public function edit($id)
 	{
-        return View::make('categories.edit');
+		//
 	}
 
 	/**

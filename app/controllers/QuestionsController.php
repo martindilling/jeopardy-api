@@ -1,6 +1,8 @@
 <?php
 
-class QuestionsController extends BaseController {
+use Jeopardy\Transformers\QuestionTransformer;
+
+class QuestionsController extends ApiController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,7 +11,9 @@ class QuestionsController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('questions.index');
+		$questions = Question::take(10)->get();
+
+		return $this->respondWithCollection($questions, new QuestionTransformer);
 	}
 
 	/**
@@ -19,7 +23,7 @@ class QuestionsController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('questions.create');
+		//
 	}
 
 	/**
@@ -40,7 +44,13 @@ class QuestionsController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('questions.show');
+		$question = Question::find($id);
+
+		if (! $question) {
+			return $this->errorNotFound('Did you just invent an ID and try loading a question? Muppet.');
+		}
+
+		return $this->respondWithItem($question, new QuestionTransformer);
 	}
 
 	/**
@@ -51,7 +61,7 @@ class QuestionsController extends BaseController {
 	 */
 	public function edit($id)
 	{
-        return View::make('questions.edit');
+		//
 	}
 
 	/**

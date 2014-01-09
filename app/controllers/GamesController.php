@@ -1,6 +1,30 @@
 <?php
 
-class GamesController extends BaseController {
+use Jeopardy\Transformers\GameTransformer;
+
+class GamesController extends ApiController {
+
+	protected $eagerLoad = array();
+
+	public function __construct()
+	{
+		parent::__construct(new League\Fractal\Manager);
+
+		$requestedEmbeds = explode(',', Input::get('embed'));
+
+		// Left is the embed names, right is relationship names.
+		// avoids exposing relationships and whatnot directly
+		$possibleRelationships = array(
+			'user'                   => 'user',
+			'difficulties'           => 'difficulties',
+			'difficulties.questions' => 'difficulties.questions',
+			'categories'             => 'categories',
+			'categories.questions'   => 'categories.questions',
+		);
+
+		// Check for potential ORM relationships, and convert from generic "embed" names
+		$this->eagerLoad = array_values(array_intersect($possibleRelationships, $requestedEmbeds));
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -9,22 +33,9 @@ class GamesController extends BaseController {
 	 */
 	public function index()
 	{
-		$games = array();
+		$games = Game::with($this->eagerLoad)->take(10)->get();
 
-		foreach (Game::all() as $game) {
-			$games[] = [
-				'id'          => (int) $game->id,
-				'user_id'     => (int) $game->user_id,
-				'active'      => (boolean) $game->active,
-				'name'        => $game->name,
-				'answer_time' => (int) $game->answer_time,
-				'created_at'  => (string) $game->created_at,
-			];
-		}
-
-		return Response::json([
-			'data' => $games,
-		]);
+		return $this->respondWithCollection($games, new GameTransformer);
 	}
 
 	/**
@@ -34,7 +45,7 @@ class GamesController extends BaseController {
 	 */
 	public function create()
 	{
-		return View::make('games.create');
+		//
 	}
 
 	/**
@@ -55,7 +66,13 @@ class GamesController extends BaseController {
 	 */
 	public function show($id)
 	{
-		return View::make('games.show');
+		$game = Game::with($this->eagerLoad)->find($id);
+
+		if (! $game) {
+			return $this->errorNotFound('Did you just invent an ID and try loading a game? Muppet.');
+		}
+
+		return $this->respondWithItem($game, new GameTransformer);
 	}
 
 	/**
@@ -66,7 +83,7 @@ class GamesController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		return View::make('games.edit');
+		//
 	}
 
 	/**

@@ -20,6 +20,29 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password');
 
 	/**
+	 * Validation rules.
+	 *
+	 * @var array
+	 */
+	public static $rules = array();
+
+
+
+
+	/**
+	 * Relationship: Games
+	 *
+	 * @return Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function games()
+	{
+		return $this->hasMany('Game');
+	}
+
+
+
+
+	/**
 	 * Get the unique identifier for the user.
 	 *
 	 * @return mixed

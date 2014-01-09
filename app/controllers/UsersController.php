@@ -1,6 +1,8 @@
 <?php
 
-class UsersController extends BaseController {
+use Jeopardy\Transformers\UserTransformer;
+
+class UsersController extends ApiController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,7 +11,9 @@ class UsersController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('users.index');
+		$users = User::take(10)->get();
+
+		return $this->respondWithCollection($users, new UserTransformer);
 	}
 
 	/**
@@ -19,7 +23,7 @@ class UsersController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('users.create');
+		//
 	}
 
 	/**
@@ -40,7 +44,13 @@ class UsersController extends BaseController {
 	 */
 	public function show($id)
 	{
-        return View::make('users.show');
+		$user = User::find($id);
+
+		if (! $user) {
+			return $this->errorNotFound('Did you just invent an ID and try loading a user? Muppet.');
+		}
+
+		return $this->respondWithItem($user, new UserTransformer);
 	}
 
 	/**
@@ -51,7 +61,7 @@ class UsersController extends BaseController {
 	 */
 	public function edit($id)
 	{
-        return View::make('users.edit');
+		//
 	}
 
 	/**
