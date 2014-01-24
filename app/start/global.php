@@ -49,6 +49,33 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
+
+	// dd($exception);
+
+	// $api = new Jeopardy\ApiResponse;
+
+	// switch ($code)
+	// {
+	// 	case 400:
+	// 		// return 'test';
+	// 		return $api->errorWrongArgs('Uncaught error');
+
+	// 	case 401:
+	// 		return $api->errorUnauthorized('Uncaught error');
+
+	// 	case 403:
+	// 		return $api->errorForbidden('Uncaught error');
+
+	// 	case 404:
+	// 		return $api->errorNotFound('Uncaught error');
+
+	// 	// case 500:
+	// 	// 	return $api->errorInternalError('Uncaught error');
+
+	// 	// default:
+	// 	// 	return $api->errorInternalError('Unknown error');
+	// }
+
 });
 
 /*
@@ -79,3 +106,19 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+Event::listen('auth.*', function($user)
+{
+	Log::info('auth.* event is hit.');
+});
+
+Event::listen('auth.token.valid', function($user)
+{
+	Log::info('auth.token.valid event is hit.');
+
+	$token = $user->tokens()->first();
+	$token->lastuse_at = new DateTime;
+	$token->save();
+});
+
+// dd('test');

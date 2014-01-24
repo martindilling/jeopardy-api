@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateUsersTable extends Migration {
+class CreateAuthTokensTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,11 @@ class CreateUsersTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('users', function(Blueprint $table) {
+		Schema::create('api_tokens', function(Blueprint $table) {
 			$table->increments('id');
-			$table->string('email')->unique();
-			$table->string('password');
-			$table->string('name');
-			// $table->string('api_token');
+			$table->integer('user_id')->unsigned();
+			$table->string('token');
+			$table->timestamp('lastuse_at');
 			$table->timestamps();
 		});
 	}
@@ -30,7 +29,7 @@ class CreateUsersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('users');
+		Schema::drop('api_tokens');
 	}
 
 }

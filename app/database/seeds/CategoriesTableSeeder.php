@@ -7,7 +7,7 @@ class CategoriesTableSeeder extends Seeder {
 		$faker = Faker\Factory::create();
 
 		foreach (Game::all() as $game) {
-			for ($i = 0; $i < rand(0, 10); $i++) {
+			for ($i = 0; $i < rand(3, 5); $i++) {
 
 				$categories = Category::create(array(
 					'game_id'     => $game->id,

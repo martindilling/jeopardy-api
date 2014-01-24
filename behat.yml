@@ -1,0 +1,11 @@
+default:
+    paths:
+        features: app/tests/behat
+    context:
+        parameters:
+            base_url: http://localhost/laravel/projects/jeopardy/public/api/v1
+            api_token: secretdummytoken
+    extensions:
+        Behat\MinkExtension\Extension:
+            goutte: ~
+            base_url: http://localhost/laravel/projects/jeopardy/public/api/v1

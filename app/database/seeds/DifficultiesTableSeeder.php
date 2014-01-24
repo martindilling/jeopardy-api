@@ -7,7 +7,7 @@ class DifficultiesTableSeeder extends Seeder {
 		$faker = Faker\Factory::create();
 
 		foreach (Game::all() as $game) {
-			for ($i = 0; $i < rand(1, 6); $i++) {
+			for ($i = 0; $i < rand(1, 4); $i++) {
 
 				$difficulties = Difficulty::create(array(
 					'game_id'     => $game->id,

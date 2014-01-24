@@ -1,5 +1,7 @@
 <?php
 
+Route::filter('token', 'Jeopardy\Token\Filters\TokenFilter');
+
 /*
 |--------------------------------------------------------------------------
 | Application & Route Filters

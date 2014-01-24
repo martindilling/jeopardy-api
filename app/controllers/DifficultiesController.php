@@ -47,7 +47,7 @@ class DifficultiesController extends ApiController {
 		$difficulty = Difficulty::find($id);
 
 		if (! $difficulty) {
-			return $this->errorNotFound('Did you just invent an ID and try loading a difficulty? Muppet.');
+			return ErrorResponse::singleResourceNotFound('difficulty', $id);
 		}
 
 		return $this->respondWithItem($difficulty, new DifficultyTransformer);

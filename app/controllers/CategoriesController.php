@@ -47,7 +47,7 @@ class CategoriesController extends ApiController {
 		$category = Category::find($id);
 
 		if (! $category) {
-			return $this->errorNotFound('Did you just invent an ID and try loading a category? Muppet.');
+			return ErrorResponse::singleResourceNotFound('category', $id);
 		}
 
 		return $this->respondWithItem($category, new CategoryTransformer);

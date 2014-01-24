@@ -3,7 +3,7 @@
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	/**
 	 * The database table used by the model.
@@ -11,6 +11,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'users';
+
+	protected $fillable = array('email', 'password', 'name');
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -24,7 +26,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	public static $rules = array();
+	public static $rules = array(
+		'email'    => 'required|email|unique:users',
+		'password' => 'required|min:8',
+		'name'     => 'required',
+	);
 
 
 
@@ -37,6 +43,22 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function games()
 	{
 		return $this->hasMany('Game');
+	}
+
+	/**
+	 * Relationship: ApiTokens
+	 *
+	 * @return Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function api_tokens()
+	{
+		return $this->hasMany('Jeopardy\Token\Token');
+	}
+
+
+	public function getTokens()
+	{
+		return $this->api_tokens();
 	}
 
 

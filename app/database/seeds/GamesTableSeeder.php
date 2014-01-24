@@ -7,7 +7,7 @@ class GamesTableSeeder extends Seeder {
 		$faker = Faker\Factory::create();
 
 		foreach (User::all() as $user) {
-			if (rand(0, 1) == 1) {
+			if ( rand(0, 1) == 1 || $user->id == 1 ) {
 				for ($i = 0; $i < rand(0, 2); $i++) {
 
 					$games = Game::create(array(

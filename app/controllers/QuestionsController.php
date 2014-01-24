@@ -47,7 +47,7 @@ class QuestionsController extends ApiController {
 		$question = Question::find($id);
 
 		if (! $question) {
-			return $this->errorNotFound('Did you just invent an ID and try loading a question? Muppet.');
+			return ErrorResponse::singleResourceNotFound('question', $id);
 		}
 
 		return $this->respondWithItem($question, new QuestionTransformer);

@@ -31,6 +31,7 @@ class GameTransformer extends TransformerAbstract
 			'name'        => $game->name,
 			'answer_time' => (int) $game->answer_time,
 			'created_at'  => (string) $game->created_at,
+			'updated_at'  => (string) $game->updated_at,
 		);
 	}
 

@@ -28,10 +28,20 @@ class DatabaseSeeder extends Seeder {
 		}
 
 		$this->call('UsersTableSeeder');
+		$this->command->info('User table seeded!');
+
 		$this->call('GamesTableSeeder');
+		$this->command->info('Games table seeded!');
+
 		$this->call('CategoriesTableSeeder');
+		$this->command->info('Categories table seeded!');
+
 		$this->call('DifficultiesTableSeeder');
+		$this->command->info('Difficulties table seeded!');
+
 		$this->call('QuestionsTableSeeder');
+		$this->command->info('Questions table seeded!');
+
 	}
 
 }

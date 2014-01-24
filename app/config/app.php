@@ -65,7 +65,7 @@ return array(
 	|
 	*/
 
-	'key' => 'YourSecretKey!!!',
+	'key' => 'aUCPUiICLoFxQAkI8Bk0fvJsfzUwHNT5',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -109,6 +109,9 @@ return array(
 
 		'Way\Generators\GeneratorsServiceProvider',
 		'Clockwork\Support\Laravel\ClockworkServiceProvider',
+
+
+		'Jeopardy\Responses\Error\ErrorResponseServiceProvider',
 
 	),
 
@@ -177,6 +180,9 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 		'Clockwork'       => 'Clockwork\Support\Laravel\Facade',
+
+
+		'ErrorResponse'   => 'Jeopardy\Responses\Error\ErrorResponseFacade',
 
 	),
 

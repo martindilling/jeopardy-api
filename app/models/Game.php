@@ -36,7 +36,7 @@ class Game extends Eloquent {
 	 */
 	public function categories()
 	{
-		return $this->hasMany('Category');
+		return $this->hasMany('Category')->orderBy('order', 'desc');
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Game extends Eloquent {
 	 */
 	public function difficulties()
 	{
-		return $this->hasMany('Difficulty');
+		return $this->hasMany('Difficulty')->orderBy('order', 'desc');
 	}
 
 }

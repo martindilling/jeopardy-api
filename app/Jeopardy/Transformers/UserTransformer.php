@@ -20,9 +20,11 @@ class UserTransformer extends TransformerAbstract
 		return array(
 			'id'         => (int) $user->id,
 			'email'      => $user->email,
-			'password'   => $user->password,
+			// 'password'   => $user->password,
 			'name'       => $user->name,
+			// 'api_token'  => $user->api_token,
 			'created_at' => (string) $user->created_at,
+			'updated_at' => (string) $user->updated_at,
 		);
 	}
 

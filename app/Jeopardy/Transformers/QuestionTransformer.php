@@ -31,6 +31,7 @@ class QuestionTransformer extends TransformerAbstract
 			'question'      => $question->question,
 			'answer'        => $question->answer,
 			'created_at'    => (string) $question->created_at,
+			'updated_at'    => (string) $question->updated_at,
 		);
 	}
 

@@ -30,6 +30,7 @@ class CategoryTransformer extends TransformerAbstract
 			'order'       => (int) $category->order,
 			'name'        => $category->name,
 			'created_at'  => (string) $category->created_at,
+			'updated_at' => (string) $category->updated_at,
 		);
 	}
 

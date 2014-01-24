@@ -30,6 +30,7 @@ class DifficultyTransformer extends TransformerAbstract
 			'name'        => $difficulty->name,
 			'points'      => (int) $difficulty->points,
 			'created_at'  => (string) $difficulty->created_at,
+			'updated_at' => (string) $difficulty->updated_at,
 		);
 	}
 
