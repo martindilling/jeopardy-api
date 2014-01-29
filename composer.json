@@ -6,7 +6,7 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"fzaninotto/faker": "1.4.*@dev",
-		"way/generators": "1.0.*@dev",
+		"way/generators": "dev-master",
 		"league/fractal": "0.6.*",
 		"itsgoingd/clockwork": "dev-master"
 	},
