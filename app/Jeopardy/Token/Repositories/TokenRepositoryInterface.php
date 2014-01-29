@@ -8,7 +8,5 @@ interface TokenRepositoryInterface
 	public function attempt(array $credentials);
 	public function create(User $user);
 	public function purge(User $user);
-
-	public function getToken($token);
-	public function lastUsed();
+	public function getUser($tokenStr);
 }

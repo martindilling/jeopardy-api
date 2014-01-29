@@ -50,15 +50,15 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 *
 	 * @return Illuminate\Database\Eloquent\Relations\HasMany
 	 */
-	public function api_tokens()
+	public function token()
 	{
-		return $this->hasMany('Jeopardy\Token\Token');
+		return $this->hasOne('Jeopardy\Token\Token');
 	}
 
 
-	public function getTokens()
+	public function getToken()
 	{
-		return $this->api_tokens();
+		return $this->token()->first();
 	}
 
 

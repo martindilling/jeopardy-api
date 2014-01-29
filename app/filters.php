@@ -21,8 +21,12 @@ App::before(function($request)
 
 App::after(function($request, $response)
 {
-	//
+	Log::info('Flushing all sessions');
+
+	// Flush all sessions
+	Session::flush();
 });
+
 
 /*
 |--------------------------------------------------------------------------

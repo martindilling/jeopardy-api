@@ -28,10 +28,10 @@ Route::group(array('prefix' => 'api/v1'), function()
 	Route::delete('token', 'ApiTokenController@destroy')->before('token');
 
 	Route::get(   'users', function() { return ErrorResponse::noResourceListing(); });
-	Route::post(  'users',      'UsersController@store');
-	Route::get(   'users/{id}', 'UsersController@show');
-	Route::post(  'users/{id}', 'UsersController@update');
-	Route::delete('users/{id}', 'UsersController@destroy');
+	Route::post(  'users',   'UsersController@store');
+	Route::get(   'profile', 'UsersController@show'); // users.show
+	Route::post(  'profile', 'UsersController@update'); // users.update
+	Route::delete('profile', 'UsersController@destroy'); // users.delete
 	Route::get(   'users/{user_id}/games', 'GamesController@index');
 
 

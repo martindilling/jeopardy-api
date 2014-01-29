@@ -107,18 +107,4 @@ App::down(function()
 
 require app_path().'/filters.php';
 
-Event::listen('auth.*', function($user)
-{
-	Log::info('auth.* event is hit.');
-});
 
-Event::listen('auth.token.valid', function($user)
-{
-	Log::info('auth.token.valid event is hit.');
-
-	$token = $user->tokens()->first();
-	$token->lastuse_at = new DateTime;
-	$token->save();
-});
-
-// dd('test');

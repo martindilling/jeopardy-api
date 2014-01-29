@@ -1,6 +1,6 @@
 <?php namespace Jeopardy\Token;
 
-use Eloquent;
+use Eloquent, DateTime;
 
 class Token extends Eloquent {
 
@@ -33,7 +33,14 @@ class Token extends Eloquent {
 		return $this->belongsTo('User');
 	}
 
-
+	/**
+	 * Update the lastuse_at value
+	 */
+	public function usedNow()
+	{
+		$this->lastuse_at = new DateTime;
+		$this->save();
+	}
 
 
 }
