@@ -1,72 +1,56 @@
 <?php
 
-App::bind('Jeopardy\Token\Generators\TokenGeneratorInterface', 'Jeopardy\Token\Generators\LaravelTokenGenerator');
-App::bind('Jeopardy\Token\Repositories\TokenRepositoryInterface', 'Jeopardy\Token\Repositories\EloquentTokenRepository');
-App::bind('Jeopardy\Token\Fetchers\TokenFetcherInterface', 'Jeopardy\Token\Fetchers\DefaultTokenFetcher');
-
-
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the Closure to execute when that URI is requested.
-|
-*/
-
 Route::get('/', function()
 {
-	return ErrorResponse::blah();
+	return 'nothing here';
 });
 
 Route::group(array('prefix' => 'api/v1'), function()
 {
-	Route::get(   'token', 'ApiTokenController@index')->before('token');
-	Route::post(  'token', 'ApiTokenController@store');
-	Route::delete('token', 'ApiTokenController@destroy')->before('token');
+	Route::get(   'token', 'ApiTokenController@index')->before('token'); // done
+	Route::post(  'token', 'ApiTokenController@store'); // done
+	Route::delete('token', 'ApiTokenController@destroy')->before('token'); // done
 
-	Route::get(   'users', function() { return ErrorResponse::noResourceListing(); });
-	Route::post(  'users',   'UsersController@store');
-	Route::get(   'profile', 'UsersController@show'); // users.show
-	Route::post(  'profile', 'UsersController@update'); // users.update
-	Route::delete('profile', 'UsersController@destroy'); // users.delete
-	Route::get(   'users/{user_id}/games', 'GamesController@index');
+	Route::post(  'users', 'UsersController@store'); // done
+
+	Route::get(   'profile', 'UsersController@show')->before('token');  // done
+	Route::put(   'profile', 'UsersController@update'); // TODO
+	Route::delete('profile', 'UsersController@destroy'); // TODO
+	Route::get(   'profile/games', 'GamesController@index'); // TODO
 
 
-	Route::get(   'games',      'GamesController@index'); // For authenticated user
-	Route::post(  'games',      'GamesController@store');
-	Route::get(   'games/{id}', 'GamesController@show');
-	Route::post(  'games/{id}', 'GamesController@update');
-	Route::delete('games/{id}', 'GamesController@destroy');
-	Route::get(   'games/{game_id}/categories', 'CategoriesController@index');
-	Route::get(   'games/{game_id}/difficulties', 'DifficultiesController@index');
+	Route::get(   'games',      'GamesController@index'); // TODO
+	Route::post(  'games',      'GamesController@store'); // TODO
+	Route::get(   'games/{id}', 'GamesController@show'); // TODO
+	Route::post(  'games/{id}', 'GamesController@update'); // TODO
+	Route::delete('games/{id}', 'GamesController@destroy'); // TODO
+	Route::get(   'games/{game_id}/categories', 'CategoriesController@index'); // TODO
+	Route::get(   'games/{game_id}/difficulties', 'DifficultiesController@index'); // TODO
 
 
 	// Route::get(   'categories',      'CategoriesController@index');
-	Route::get(   'categories', function() { return ErrorResponse::noResourceListing(); });
+	Route::get(   'categories', function() { return ErrorResponse::noResourceListing(); }); // TODO
 	// Route::get(   'categories', function() { App::abort(400, Config::get('errors.list_resource_not_available')); });
-	Route::post(  'categories',      'CategoriesController@store');
-	Route::get(   'categories/{id}', 'CategoriesController@show');
-	Route::post(  'categories/{id}', 'CategoriesController@update');
-	Route::delete('categories/{id}', 'CategoriesController@destroy');
-	Route::get(   'categories/{category_id}/questions', 'QuestionsController@index');
+	Route::post(  'categories',      'CategoriesController@store'); // TODO
+	Route::get(   'categories/{id}', 'CategoriesController@show'); // TODO
+	Route::post(  'categories/{id}', 'CategoriesController@update'); // TODO
+	Route::delete('categories/{id}', 'CategoriesController@destroy'); // TODO
+	Route::get(   'categories/{category_id}/questions', 'QuestionsController@index'); // TODO
 
 
 	// Route::get(   'difficulties',      'DifficultiesController@index');
-	Route::get(   'difficulties', function() { return ErrorResponse::noResourceListing(); });
-	Route::post(  'difficulties',      'DifficultiesController@store');
-	Route::get(   'difficulties/{id}', 'DifficultiesController@show');
-	Route::post(  'difficulties/{id}', 'DifficultiesController@update');
-	Route::delete('difficulties/{id}', 'DifficultiesController@destroy');
+	Route::get(   'difficulties', function() { return ErrorResponse::noResourceListing(); }); // TODO
+	Route::post(  'difficulties',      'DifficultiesController@store'); // TODO
+	Route::get(   'difficulties/{id}', 'DifficultiesController@show'); // TODO
+	Route::post(  'difficulties/{id}', 'DifficultiesController@update'); // TODO
+	Route::delete('difficulties/{id}', 'DifficultiesController@destroy'); // TODO
 
 
 	// Route::get(   'questions',      'QuestionsController@index');
-	Route::get(   'questions', function() { return ErrorResponse::noResourceListing(); });
-	Route::post(  'questions',      'QuestionsController@store');
-	Route::get(   'questions/{id}', 'QuestionsController@show');
-	Route::post(  'questions/{id}', 'QuestionsController@update');
-	Route::delete('questions/{id}', 'QuestionsController@destroy');
+	Route::get(   'questions', function() { return ErrorResponse::noResourceListing(); }); // TODO
+	Route::post(  'questions',      'QuestionsController@store'); // TODO
+	Route::get(   'questions/{id}', 'QuestionsController@show'); // TODO
+	Route::post(  'questions/{id}', 'QuestionsController@update'); // TODO
+	Route::delete('questions/{id}', 'QuestionsController@destroy'); // TODO
 
 });

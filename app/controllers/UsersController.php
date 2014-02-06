@@ -2,113 +2,114 @@
 
 use Jeopardy\Transformers\UserTransformer;
 
-class UsersController extends ApiController {
-
+class UsersController extends ApiController
+{
+	/**
+	 * @var User
+	 */
 	protected $user;
 
+	/**
+	 * @var array
+	 */
+	protected $eagerLoad = array();
+
+//	/**
+//	 * @var integer
+//	 */
+//	protected $paginate;
+
+	/**
+	 * @param User $user
+	 */
 	public function __construct(User $user)
 	{
-		parent::__construct(new League\Fractal\Manager, new Jeopardy\Responses\Api\ApiResponse);
+		parent::__construct();
 		$this->user = $user;
-	}
 
+//		// Get the requested pagination
+//		$requestedPagination = Input::get('paginate');
+//		// Set the pagination
+//		$this->paginate = $requestedPagination;
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		$users = User::take(10)->get();
+		// Get the requested embeds
+		$requestedEmbeds = explode(',', Input::get('embed'));
 
-		return $this->respondWithCollection($users, new UserTransformer);
-	}
+		// Left is the embed names, right is relationship names.
+		$possibleRelationships = array(
+			'games'                                   => 'games',
+			'games.difficulties'                      => 'games.difficulties',
+			'games.difficulties.questions.category'   => 'games.difficulties.questions.category',
+			'games.categories'                        => 'games.categories',
+			'games.categories.questions'              => 'games.categories.questions',
+			'games.categories.questions.difficulty'   => 'games.categories.questions.difficulty',
+		);
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
+		// Check for potential ORM relationships, and convert from generic "embed" names
+		$this->eagerLoad = array_values(array_intersect($possibleRelationships, $requestedEmbeds));
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Create a new user.
 	 *
-	 * @return Response
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function store()
 	{
-		// return Input::all();
 		$validation = User::validate(Input::all());
-		if ($validation->passes()){
+		if ($validation->passes()) {
 
-			$user = new User;
+			$user           = new User;
 			$user->email    = Input::get('email');
 			$user->password = Hash::make(Input::get('password'));
 			$user->name     = Input::get('name');
-			// $user->generateApiToken();
 			$user->save();
 
 			return $this->setStatusCode(201)->respondWithItem($user, new UserTransformer);
-		}
-		else {
-			// dd($validation->messages()->toJson());
+		} else {
 			return ErrorResponse::createResourceValidationError($validation->messages()->toArray(), Input::except('password'));
 		}
 	}
 
 	/**
-	 * Display the specified resource.
+	 * Get the authenticated user
 	 *
-	 * @param  int  $id
-	 * @return Response
+	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function show($id)
+	public function show()
 	{
-		$user = User::find($id);
+		// Get user from token
+		$user = $this->getTokenUser();
 
-		if (! $user) {
-			return ErrorResponse::singleResourceNotFound('user', $id);
+		if ( isset($this->eagerLoad) ) {
+			$user->load($this->eagerLoad);
 		}
 
 		return $this->respondWithItem($user, new UserTransformer);
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Update the authenticated user
 	 *
-	 * @param  int  $id
-	 * @return Response
+	 * @param null $id
+	 *
+	 * @return string
 	 */
-	public function edit($id)
+	public function update($id = null)
 	{
-		//
+		return 'TODO: Update the user';
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Delete the authenticated user
 	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
+	 * @param null $id
 	 *
-	 * @param  int  $id
-	 * @return Response
+	 * @return string
 	 */
-	public function destroy($id)
+	public function destroy($id = null)
 	{
-		//
+		return 'TODO: Delete the user';
 	}
 
 }

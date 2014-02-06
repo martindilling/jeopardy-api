@@ -4,7 +4,7 @@ use User;
 
 interface TokenRepositoryInterface
 {
-	public function validate($tokenStr);
+	public function get($tokenStr);
 	public function attempt(array $credentials);
 	public function create(User $user);
 	public function purge(User $user);

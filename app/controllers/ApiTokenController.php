@@ -1,41 +1,14 @@
 <?php
 
-use Jeopardy\Token\Repositories\TokenRepositoryInterface;
-use Jeopardy\Token\Fetchers\TokenFetcherInterface;
-
 use Jeopardy\Transformers\UserTransformer;
 
-class ApiTokenController extends ApiController {
-
-	/**
-	 * @var \Jeopardy\Token\Repositories\TokenRepositoryInterface
-	 */
-	protected $tokenRepo;
-
-	/**
-	 * @var \Jeopardy\Token\Fetchers\TokenFetcherInterface
-	 */
-	protected $tokenFetcher;
-
-	/**
-	 * Constructor
-	 *
-	 * @param TokenRepositoryInterface $tokenRepo
-	 * @param TokenFetcherInterface    $tokenFetcher
-	 */
-	function __construct(TokenRepositoryInterface $tokenRepo, TokenFetcherInterface $tokenFetcher)
-	{
-		parent::__construct(new League\Fractal\Manager, new Jeopardy\Responses\Api\ApiResponse);
-		$this->tokenRepo = $tokenRepo;
-		$this->tokenFetcher = $tokenFetcher;
-	}
+class ApiTokenController extends ApiController
+{
 
 	public function index()
 	{
-		// Fetch token
-		$tokenStr = $this->tokenFetcher->fetchToken();
 		// Get user from token
-		$user = $this->tokenRepo->getUser($tokenStr);
+		$user = $this->getTokenUser();
 
 		// Return the user item
 		return $this->respondWithItem($user, new UserTransformer);
@@ -55,10 +28,8 @@ class ApiTokenController extends ApiController {
 
 	public function destroy()
 	{
-		// Fetch token
-		$tokenStr = $this->tokenFetcher->fetchToken();
 		// Get user from token
-		$user = $this->tokenRepo->getUser($tokenStr);
+		$user = $this->getTokenUser();
 
 		// Delete the users token
 		$this->tokenRepo->purge($user);

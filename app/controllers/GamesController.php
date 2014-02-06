@@ -7,22 +7,29 @@ use Jeopardy\Responses\Api\ApiResponse;
 
 class GamesController extends ApiController {
 
+	/**
+	 * @var array
+	 */
 	protected $eagerLoad = array();
-	protected $paginate;
+
+//	/**
+//	 * @var integer
+//	 */
+//	protected $paginate;
 
 	public function __construct()
 	{
 		parent::__construct(new Manager, new ApiResponse);
 
-		$requestedPagination = Input::get('pagination');
+//		// Get the requested pagination
+//		$requestedPagination = Input::get('paginate');
+//		// Set the pagination
+//		$this->paginate = $requestedPagination;
 
-		$this->paginate = $requestedPagination;
-
-
+		// Get the requested embeds
 		$requestedEmbeds = explode(',', Input::get('embed'));
 
 		// Left is the embed names, right is relationship names.
-		// avoids exposing relationships and whatnot directly
 		$possibleRelationships = array(
 			'user'                              => 'user',
 			'difficulties'                      => 'difficulties',
@@ -39,15 +46,18 @@ class GamesController extends ApiController {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function index($user_id = null)
+	public function index()
 	{
-		if ( isset($this->paginate) ) {
-			$games = Game::with($this->eagerLoad)->paginate($this->paginate);
-		} else {
-			$games = Game::with($this->eagerLoad)->get();
-		}
+		// Get user from token
+		$user = $this->getTokenUser();
+
+//		if ( isset($this->paginate) ) {
+//			$games = Game::with($this->eagerLoad)->whereUserId($user->id)->paginate($this->paginate);
+//		} else {
+			$games = Game::with($this->eagerLoad)->whereUserId($user->id)->get();
+//		}
 
 		return $this->respondWithCollection($games, new GameTransformer);
 	}

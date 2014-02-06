@@ -112,6 +112,8 @@ return array(
 
 
 		'Jeopardy\Responses\Error\ErrorResponseServiceProvider',
+		'Jeopardy\Responses\Api\ApiResponseServiceProvider',
+		'Jeopardy\Token\TokenServiceProvider',
 
 	),
 

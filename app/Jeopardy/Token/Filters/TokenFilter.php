@@ -43,8 +43,8 @@ class TokenFilter {
 	/**
 	 * Filter to check for a valid token
 	 *
-	 * @param  [type] $route
-	 * @param  [type] $request
+	 * @param $route
+	 * @param $request
 	 */
 	function filter($route, $request) {
 		Log::info('Token filter on: ' . $route->getUri());
@@ -52,14 +52,13 @@ class TokenFilter {
 		// Fetch token
 		$tokenStr = $this->tokenFetcher->fetchToken();
 
-		// Validate token
-		$user = $this->tokenRepo->validate($tokenStr);
+		// Get token
+		$token = $this->tokenRepo->get($tokenStr);
 
 		// Update lastuse_at
-		$token = $user->getToken();
 		$token->usedNow();
 
 		// Fire event in case something needs to know
-		Event::fire('auth.token.valid', $user->getToken());
+		Event::fire('auth.token.valid', $token);
 	}
 }
