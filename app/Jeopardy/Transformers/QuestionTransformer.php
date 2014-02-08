@@ -30,7 +30,6 @@ class QuestionTransformer extends TransformerAbstract
             'category_id'   => (int) $question->category_id,
             'difficulty_id' => (int) $question->difficulty_id,
             'question'      => $question->question,
-            'question'      => $question->question,
             'answer'        => $question->answer,
             'created_at'    => (string) $question->created_at,
             'updated_at'    => (string) $question->updated_at,

@@ -11,8 +11,7 @@ return array(
     |
     */
 
-    'filename' => '_ide_helper.php',
-
+    'filename'        => '_ide_helper.php',
     /*
     |--------------------------------------------------------------------------
     | Helper files to include
@@ -24,12 +23,9 @@ return array(
     */
 
     'include_helpers' => false,
-
-    'helper_files' => array(
-        base_path().'/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
+    'helper_files'    => array(
+        base_path() . '/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
     ),
-
-
     /*
     |--------------------------------------------------------------------------
     | Extra classes
@@ -39,13 +35,15 @@ return array(
     |
     */
 
-    'extra' => array(
-        'Artisan' => array('Illuminate\Foundation\Artisan'),
-        'Eloquent' => array('Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder'),
-        'Session' => array('Illuminate\Session\Store'),
+    'extra'           => array(
+        'Artisan'  => array('Illuminate\Foundation\Artisan'),
+        'Eloquent' => array(
+            'Illuminate\Database\Eloquent\Builder',
+            'Illuminate\Database\Query\Builder'
+        ),
+        'Session'  => array('Illuminate\Session\Store'),
     ),
-
-    'magic' => array(
+    'magic'           => array(
         'Log' => array(
             'debug'     => 'Monolog\Logger::addDebug',
             'info'      => 'Monolog\Logger::addInfo',

@@ -16,8 +16,7 @@ return array(
     |
     */
 
-    'enable' => null,
-
+    'enable'              => null,
     /*
     |--------------------------------------------------------------------------
     | Enable data collection, when Clockwork is disabled
@@ -30,7 +29,6 @@ return array(
     */
 
     'collect_data_always' => true,
-
     /*
     |--------------------------------------------------------------------------
     | Filter collected data
@@ -41,10 +39,10 @@ return array(
     |
     */
 
-    'filter' => array(
-        'routes', // It might be a good idea to not collect routes in every request as this might use a lot of disk space
+    'filter'              => array(
+        'routes',
+        // It might be a good idea to not collect routes in every request as this might use a lot of disk space
     ),
-
     /*
     |--------------------------------------------------------------------------
     | Disable data collection for certain URIs
@@ -55,10 +53,9 @@ return array(
     |
     */
 
-    'filter_uris' => array(
+    'filter_uris'         => array(
         '/__clockwork/.*', // disable collecting data for clockwork-web assets
     ),
-
     /*
     |--------------------------------------------------------------------------
     | Send Headers for AJAX request
@@ -71,8 +68,7 @@ return array(
     |
     */
 
-    'headers' => array(
-        // 'Accept' => 'application/vnd.com.whatever.v1+json',
+    'headers'             => array(// 'Accept' => 'application/vnd.com.whatever.v1+json',
     ),
 
 );

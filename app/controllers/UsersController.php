@@ -67,7 +67,10 @@ class UsersController extends ApiController
 
             return $this->setStatusCode(201)->respondWithItem($user, new UserTransformer);
         } else {
-            return ErrorResponse::createResourceValidationError($validation->messages()->toArray(), Input::except('password'));
+            return ErrorResponse::createResourceValidationError(
+                $validation->messages()->toArray(),
+                Input::except('password')
+            );
         }
     }
 

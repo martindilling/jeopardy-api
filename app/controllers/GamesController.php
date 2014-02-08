@@ -1,8 +1,6 @@
 <?php
 
-use Jeopardy\Responses\Api\ApiResponse;
 use Jeopardy\Transformers\GameTransformer;
-use League\Fractal\Manager;
 
 class GamesController extends ApiController
 {
@@ -16,9 +14,12 @@ class GamesController extends ApiController
     //	 */
     //	protected $paginate;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        parent::__construct(new Manager, new ApiResponse);
+        parent::__construct();
 
         //		// Get the requested pagination
         //		$requestedPagination = Input::get('paginate');

@@ -11994,6 +11994,21 @@ class Clockwork extends Clockwork\Support\Laravel\Facade{
 
 class ErrorResponse extends Jeopardy\Responses\Error\ErrorResponseFacade{
 	/**
+	 * Return a json response from the given error
+	 *
+	 * @param int    $errorCode Http error status code
+	 * @param string $message   Short error message
+	 * @param string $details   More detailed description of the error
+	 * @param array  $valErrors Validation errors as array
+	 * @param array  $oldInput  Old input when validating
+	 * @return \Illuminate\Http\JsonResponse
+	 * @static 
+	 */
+	 public static function respondWithError($errorCode, $message, $details, $valErrors = null, $oldInput = null){
+		return Jeopardy\Responses\Error\ErrorResponse::respondWithError($errorCode, $message, $details, $valErrors, $oldInput);
+	 }
+
+	/**
 	 * Generates a Response with a 400 HTTP header and a given message.
 	 *
 	 * @return Response

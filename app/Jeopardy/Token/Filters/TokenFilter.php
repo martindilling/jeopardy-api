@@ -33,8 +33,11 @@ class TokenFilter
      * @param TokenFetcherInterface    $tokenFetcher
      * @param Dispatcher               $events
      */
-    public function __construct(TokenRepositoryInterface $tokenRepo, TokenFetcherInterface $tokenFetcher, Dispatcher $events)
-    {
+    public function __construct(
+        TokenRepositoryInterface $tokenRepo,
+        TokenFetcherInterface $tokenFetcher,
+        Dispatcher $events
+    ) {
         $this->tokenRepo    = $tokenRepo;
         $this->tokenFetcher = $tokenFetcher;
         $this->events       = $events;

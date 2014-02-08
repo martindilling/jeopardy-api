@@ -101,11 +101,9 @@ return array(
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
-
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',
         'Clockwork\Support\Laravel\ClockworkServiceProvider',
-
         'Jeopardy\Responses\Error\ErrorResponseServiceProvider',
         'Jeopardy\Responses\Api\ApiResponseServiceProvider',
         'Jeopardy\Token\TokenServiceProvider',
@@ -172,9 +170,7 @@ return array(
         'URL'           => 'Illuminate\Support\Facades\URL',
         'Validator'     => 'Illuminate\Support\Facades\Validator',
         'View'          => 'Illuminate\Support\Facades\View',
-
         'Clockwork'     => 'Clockwork\Support\Laravel\Facade',
-
         'ErrorResponse' => 'Jeopardy\Responses\Error\ErrorResponseFacade',
     ),
 );

@@ -24,10 +24,16 @@ class ErrorResponse extends ApiResponse
      * @param  array  $oldInput  Old input when validating
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithError($errorCode, $message, $details, $valErrors = null, $oldInput = null)
+    public function respondWithError($errorCode, $message, $details, $valErrors = null, $oldInput = null)
     {
         if ($this->statusCode >= 200 && $this->statusCode < 300) {
-            trigger_error("You proberbly shouldn't respond with an error with a successful status code[200-300]. Current code is [" . $this->statusCode . "]", E_USER_WARNING);
+            trigger_error(
+                "You proberbly shouldn't respond with an error with a successful status " .
+                "code[200-300]. Current code is [" .
+                $this->statusCode .
+                "]",
+                E_USER_WARNING
+            );
         }
 
         $data = array(
@@ -50,6 +56,14 @@ class ErrorResponse extends ApiResponse
         return $this->respondWithArray($data);
     }
 
+    /**
+     * Replace in error messages/details
+     *
+     * @param $error
+     * @param $replace
+     * @param $with
+     * @return mixed
+     */
     private function doReplacements($error, $replace, $with)
     {
         $error['message'] = str_replace($replace, $with, $error['message']);
@@ -73,7 +87,9 @@ class ErrorResponse extends ApiResponse
     {
         $error = Config::get('errors.list_resource_not_available');
 
-        return $this->setStatusCode($error['http_code'])->respondWithError($error['code'], $error['message'], $error['details']);
+        return $this
+            ->setStatusCode($error['http_code'])
+            ->respondWithError($error['code'], $error['message'], $error['details']);
     }
 
     /**
@@ -89,7 +105,9 @@ class ErrorResponse extends ApiResponse
         $error = $this->doReplacements($error, ':resource', $resourcename);
         $error = $this->doReplacements($error, ':id', $id);
 
-        return $this->setStatusCode($error['http_code'])->respondWithError($error['code'], $error['message'], $error['details']);
+        return $this
+            ->setStatusCode($error['http_code'])
+            ->respondWithError($error['code'], $error['message'], $error['details']);
     }
 
     /**
@@ -103,7 +121,9 @@ class ErrorResponse extends ApiResponse
     {
         $error = Config::get('errors.create_resource_validation_error');
 
-        return $this->setStatusCode($error['http_code'])->respondWithError($error['code'], $error['message'], $error['details'], $validationErrors, $oldInput);
+        return $this
+            ->setStatusCode($error['http_code'])
+            ->respondWithError($error['code'], $error['message'], $error['details'], $validationErrors, $oldInput);
     }
 
     /**

@@ -26,13 +26,9 @@ class ApiController extends Controller
      */
     protected $api;
 
+
     /**
      * Constructor
-     *
-     * @internal param \League\Fractal\Manager $fractal
-     * @internal param \Jeopardy\Responses\Api\ApiResponse $api
-     * @internal param \Jeopardy\Token\Repositories\TokenRepositoryInterface $tokenRepo
-     * @internal param \Jeopardy\Token\Fetchers\TokenFetcherInterface $tokenFetcher
      */
     public function __construct()
     {
