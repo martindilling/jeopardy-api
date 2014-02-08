@@ -1,4 +1,5 @@
-<?php namespace Jeopardy\Token\Repositories;
+<?php
+namespace Jeopardy\Token\Repositories;
 
 use Auth;
 use Carbon\Carbon;
@@ -14,195 +15,197 @@ use Validator;
 
 class EloquentTokenRepository implements TokenRepositoryInterface
 {
-	/**
-	 * @var \Jeopardy\Token\Token
-	 */
-	protected $tokenModel;
+    /**
+     * @var \Jeopardy\Token\Token
+     */
+    protected $tokenModel;
 
-	/**
-	 * @var \Jeopardy\Token\Generators\TokenGeneratorInterface
-	 */
-	protected $generator;
+    /**
+     * @var \Jeopardy\Token\Generators\TokenGeneratorInterface
+     */
+    protected $generator;
 
-	/**
-	 * @var \User
-	 */
-	protected $userModel;
+    /**
+     * @var \User
+     */
+    protected $userModel;
 
-	public function __construct(Token $tokenModel, TokenGeneratorInterface $generator, User $userModel)
-	{
-		$this->tokenModel = $tokenModel;
-		$this->generator  = $generator;
-		$this->userModel  = $userModel;
-	}
+    /**
+     * Constructor
+     *
+     * @param Token                   $tokenModel
+     * @param TokenGeneratorInterface $generator
+     * @param User                    $userModel
+     */
+    public function __construct(Token $tokenModel, TokenGeneratorInterface $generator, User $userModel)
+    {
+        $this->tokenModel = $tokenModel;
+        $this->generator  = $generator;
+        $this->userModel  = $userModel;
+    }
 
-	/**
-	 * Generate a token
-	 *
-	 * @return string
-	 */
-	private function generateToken()
-	{
-		Log::info('Generating token!');
+    /**
+     * Generate a token
+     *
+     * @return string
+     */
+    private function generateToken()
+    {
+        Log::info('Generating token!');
 
-		// Generate token
-		$tokenStr = $this->generator->generate();
+        // Generate token
+        $tokenStr = $this->generator->generate();
 
-		// As long as the generated token already exist, generate a new one to check
-		while (!$this->isTokenUnique($tokenStr)) {
-			$tokenStr = $this->generator->generate();
-		}
+        // As long as the generated token already exist, generate a new one to check
+        while (!$this->isTokenUnique($tokenStr)) {
+            $tokenStr = $this->generator->generate();
+        }
 
-		return $tokenStr;
-	}
+        return $tokenStr;
+    }
 
-	/**
-	 * Check if given token is unique
-	 *
-	 * @param  string $tokenStr
-	 *
-	 * @return boolean
-	 */
-	private function isTokenUnique($tokenStr)
-	{
-		return !count($this->tokenModel->where('token', $tokenStr)->first());
-	}
+    /**
+     * Check if given token is unique
+     *
+     * @param  string $tokenStr
+     *
+     * @return boolean
+     */
+    private function isTokenUnique($tokenStr)
+    {
+        return !count($this->tokenModel->where('token', $tokenStr)->first());
+    }
 
-	/**
-	 * Attempt to create a token for a user
-	 *
-	 * @param  array $credentials Must contain 'email' and 'password'
-	 *
-	 * @throws \Jeopardy\Token\Exceptions\TokenException
-	 * @return \Jeopardy\Token\Token
-	 */
-	public function attempt(array $credentials)
-	{
-		Log::info('Attempting to create token!');
+    /**
+     * Get token instance from given token
+     *
+     * @param  string  $tokenStr
+     * @param  boolean $forceDB
+     *
+     * @throws \Jeopardy\Token\Exceptions\TokenException
+     * @return \Jeopardy\Token\Token
+     */
+    public function get($tokenStr, $forceDB = false)
+    {
+        Log::info('Getting token...');
 
-		// Validate credentials
-		$validator = Validator::make(
-			$credentials,
-			array(
-				'email'    => array('required'),
-				'password' => array('required')
-			)
-		);
+        // If no token given throw exception
+        if ($tokenStr == null) {
+            throw new TokenException(TokenErrors::MISSING);
+        }
 
-		// If validation fails throw exception
-		if ($validator->fails()) {
-			throw new TokenException(TokenErrors::CREDENTIALSVALIDATION);
-			// throw new NotAuthorizedException();
-		}
+        // If forced or session doesn't exist get from DB
+        // Else get from session
+        if ($forceDB == true || !Session::has($tokenStr)) {
+            Log::info('...from db!');
+            $token = $this->tokenModel->where('token', $tokenStr)->first();
+            Session::put($tokenStr, serialize($token));
+        } else {
+            Log::info('...from session!');
+            $token = unserialize(Session::get($tokenStr));
+        }
 
-		// If credentials is wrong throw exception
-		if (!Auth::validate($credentials)) {
-			throw new TokenException(TokenErrors::WRONGCREDENTIALS);
-			// throw new WrongCredentialsException();
-		}
+        // If no token found throw exception
+        if ($token == null) {
+            throw new TokenException(TokenErrors::WRONG);
+        }
 
-		// Get user instance
-		$user = $this->userModel->where('email', $credentials['email'])->first();
+        // If token is expired throw exception
+        if (Carbon::parse($token->lastuse_at)->diffInDays() >= 1) {
+            throw new TokenException(TokenErrors::EXPIRED);
+        }
 
-		// Create a token for this user
-		return $this->create($user);
-	}
+        return $token;
+    }
 
-	/**
-	 * Create a token for given user
-	 *
-	 * @param  User $user
-	 *
-	 * @return \Jeopardy\Token\Token
-	 */
-	public function create(User $user)
-	{
-		Log::info('Creating token!');
+    /**
+     * Attempt to create a token for a user
+     *
+     * @param  array $credentials Must contain 'email' and 'password'
+     *
+     * @throws \Jeopardy\Token\Exceptions\TokenException
+     * @return \Jeopardy\Token\Token
+     */
+    public function attempt(array $credentials)
+    {
+        Log::info('Attempting to create token!');
 
-		// Delete users existing token
-		$this->purge($user);
+        // Validate credentials
+        $validator = Validator::make($credentials, array(
+                'email'    => array('required'),
+                'password' => array('required')
+            ));
 
-		// Token array for creation
-		$token = array(
-			'user_id'    => $user->id,
-			'token'      => $this->generateToken(),
-			'lastuse_at' => new DateTime,
-		);
+        // If validation fails throw exception
+        if ($validator->fails()) {
+            throw new TokenException(TokenErrors::CREDENTIALSVALIDATION);
+        }
 
-		// Create the token and return it
-		return $this->tokenModel->create($token);
-	}
+        // If credentials is wrong throw exception
+        if (!Auth::validate($credentials)) {
+            throw new TokenException(TokenErrors::WRONGCREDENTIALS);
+        }
 
-	/**
-	 * Delete given users existing token
-	 *
-	 * @param  User $user
-	 *
-	 * @return bool|null
-	 */
-	public function purge(User $user)
-	{
-		Log::info('Deleting token!');
+        // Get user instance
+        $user = $this->userModel->where('email', $credentials['email'])->first();
 
-		return $user->getToken()->delete();
-	}
+        // Create a token for this user
+        return $this->create($user);
+    }
 
-	/**
-	 * Get token instance from given token
-	 *
-	 * @param  string  $tokenStr
-	 * @param  boolean $forceDB
-	 *
-	 * @throws \Jeopardy\Token\Exceptions\TokenException
-	 * @return \Jeopardy\Token\Token
-	 */
-	public function get($tokenStr, $forceDB = false)
-	{
-		Log::info('Getting token...');
+    /**
+     * Create a token for given user
+     *
+     * @param  User $user
+     *
+     * @return \Jeopardy\Token\Token
+     */
+    public function create(User $user)
+    {
+        Log::info('Creating token!');
 
-		// If no token given throw exception
-		if ($tokenStr == null) {
-			throw new TokenException(TokenErrors::MISSING);
-		}
+        // Delete users existing token
+        $this->purge($user);
 
-		// If forced or session doesn't exist get from DB
-		// Else get from session
-		if ($forceDB == true || !Session::has($tokenStr)) {
-			Log::info('...from db!');
-			$token = $this->tokenModel->where('token', $tokenStr)->first();
-			Session::put($tokenStr, serialize($token));
-		} else {
-			Log::info('...from session!');
-			$token = unserialize(Session::get($tokenStr));
-		}
+        // Token array for creation
+        $token = array(
+            'user_id'    => $user->id,
+            'token'      => $this->generateToken(),
+            'lastuse_at' => new DateTime,
+        );
 
-		// If no token found throw exception
-		if ($token == null) {
-			throw new TokenException(TokenErrors::WRONG);
-		}
+        // Create the token and return it
+        return $this->tokenModel->create($token);
+    }
 
-		// If token is expired throw exception
-		if (Carbon::parse($token->lastuse_at)->diffInDays() >= 1) {
-			throw new TokenException(TokenErrors::EXPIRED);
-		}
+    /**
+     * Delete given users existing token
+     *
+     * @param  User $user
+     *
+     * @return bool|null
+     */
+    public function purge(User $user)
+    {
+        Log::info('Deleting token!');
 
-		return $token;
-	}
+        return $user->getToken()->delete();
+    }
 
-	/**
-	 * Get user from given token
-	 *
-	 * @param  string $tokenStr
-	 * @param bool    $forceDB
-	 *
-	 * @return User
-	 */
-	public function getUser($tokenStr, $forceDB = false)
-	{
-		Log::info('Getting tokens user!');
+    /**
+     * Get user from given token
+     *
+     * @param  string $tokenStr
+     * @param bool    $forceDB
+     *
+     * @return User
+     */
+    public function getUser($tokenStr, $forceDB = false)
+    {
+        Log::info('Getting tokens user!');
 
-		$token = $this->get($tokenStr, $forceDB);
+        $token = $this->get($tokenStr, $forceDB);
 
-		return $token->user;
-	}
+        return $token->user;
+    }
 }

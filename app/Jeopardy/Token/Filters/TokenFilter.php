@@ -1,64 +1,65 @@
-<?php namespace Jeopardy\Token\Filters;
+<?php
+namespace Jeopardy\Token\Filters;
 
-use Jeopardy\Token\Repositories\TokenRepositoryInterface;
-use Jeopardy\Token\Fetchers\TokenFetcherInterface;
-
+use Event;
 use Illuminate\Events\Dispatcher;
-use Log, Event, DateTime;
+use Jeopardy\Token\Fetchers\TokenFetcherInterface;
+use Jeopardy\Token\Repositories\TokenRepositoryInterface;
+use Log;
 
+class TokenFilter
+{
+    /**
+     * The event dispatcher instance.
+     *
+     * @var \Illuminate\Events\Dispatcher
+     */
+    protected $events;
 
-class TokenFilter {
+    /**
+     * @var \Jeopardy\Token\Repositories\TokenRepositoryInterface
+     */
+    protected $tokenRepo;
 
-	/**
-	 * The event dispatcher instance.
-	 *
-	 * @var \Illuminate\Events\Dispatcher
-	 */
-	protected $events;
+    /**
+     * @var \Jeopardy\Token\Fetchers\TokenFetcherInterface
+     */
+    protected $tokenFetcher;
 
-	/**
-	 * @var \Jeopardy\Token\Repositories\TokenRepositoryInterface
-	 */
-	protected $tokenRepo;
+    /**
+     * Constructor
+     *
+     * @param TokenRepositoryInterface $tokenRepo
+     * @param TokenFetcherInterface    $tokenFetcher
+     * @param Dispatcher               $events
+     */
+    public function __construct(TokenRepositoryInterface $tokenRepo, TokenFetcherInterface $tokenFetcher, Dispatcher $events)
+    {
+        $this->tokenRepo    = $tokenRepo;
+        $this->tokenFetcher = $tokenFetcher;
+        $this->events       = $events;
+    }
 
-	/**
-	 * @var \Jeopardy\Token\Fetchers\TokenFetcherInterface
-	 */
-	protected $tokenFetcher;
+    /**
+     * Filter to check for a valid token
+     *
+     * @param $route
+     * @param $request
+     */
+    public function filter($route, $request)
+    {
+        Log::info('Token filter on: ' . $route->getUri());
 
-	/**
-	 * Constructor
-	 *
-	 * @param TokenRepositoryInterface $tokenRepo
-	 * @param TokenFetcherInterface    $tokenFetcher
-	 * @param Dispatcher               $events
-	 */
-	function __construct(TokenRepositoryInterface $tokenRepo, TokenFetcherInterface $tokenFetcher, Dispatcher $events)
-	{
-		$this->tokenRepo = $tokenRepo;
-		$this->tokenFetcher = $tokenFetcher;
-		$this->events = $events;
-	}
+        // Fetch token
+        $tokenStr = $this->tokenFetcher->fetchToken();
 
-	/**
-	 * Filter to check for a valid token
-	 *
-	 * @param $route
-	 * @param $request
-	 */
-	function filter($route, $request) {
-		Log::info('Token filter on: ' . $route->getUri());
+        // Get token
+        $token = $this->tokenRepo->get($tokenStr);
 
-		// Fetch token
-		$tokenStr = $this->tokenFetcher->fetchToken();
+        // Update lastuse_at
+        $token->usedNow();
 
-		// Get token
-		$token = $this->tokenRepo->get($tokenStr);
-
-		// Update lastuse_at
-		$token->usedNow();
-
-		// Fire event in case something needs to know
-		Event::fire('auth.token.valid', $token);
-	}
+        // Fire event in case something needs to know
+        Event::fire('auth.token.valid', $token);
+    }
 }

@@ -8,7 +8,8 @@
 		"fzaninotto/faker": "1.4.*@dev",
 		"way/generators": "dev-master",
 		"league/fractal": "0.7.*",
-		"itsgoingd/clockwork": "dev-master"
+		"itsgoingd/clockwork": "dev-master",
+		"barryvdh/laravel-ide-helper": "1.*"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "3.7.*@dev",
@@ -38,6 +39,7 @@
 		],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
+			"php artisan ide-helper:generate",
 			"php artisan optimize"
 		],
 		"post-create-project-cmd": [

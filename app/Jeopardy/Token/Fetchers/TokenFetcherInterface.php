@@ -1,6 +1,12 @@
-<?php namespace Jeopardy\Token\Fetchers;
+<?php
+namespace Jeopardy\Token\Fetchers;
 
-interface TokenFetcherInterface {
-
-	public function fetchToken();
+interface TokenFetcherInterface
+{
+    /**
+     * Fetch the token
+     *
+     * @return string
+     */
+    public function fetchToken();
 }

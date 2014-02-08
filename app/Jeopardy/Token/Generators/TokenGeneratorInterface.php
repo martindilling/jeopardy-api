@@ -1,6 +1,13 @@
-<?php namespace Jeopardy\Token\Generators;
+<?php
+namespace Jeopardy\Token\Generators;
 
 interface TokenGeneratorInterface
 {
-	public function generate($size = 32);
+    /**
+     * Generate a token
+     *
+     * @param  integer $size
+     * @return string
+     */
+    public function generate($size = 32);
 }
