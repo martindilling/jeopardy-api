@@ -83,6 +83,20 @@ class ErrorResponse extends ApiResponse
      *
      * @return  Response
      */
+    public function fromErrorCode($code)
+    {
+        $error = Config::get('errors.' . $code);
+
+        return $this
+            ->setStatusCode($error['http_code'])
+            ->respondWithError($error['code'], $error['message'], $error['details']);
+    }
+
+    /**
+     * Generates a Response with a 400 HTTP header and a given message.
+     *
+     * @return  Response
+     */
     public function noResourceListing()
     {
         $error = Config::get('errors.list_resource_not_available');

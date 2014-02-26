@@ -46,8 +46,6 @@ class ApiResponse
     {
         $response = Response::json($array, $this->statusCode, $headers);
 
-        // $response->header('Content-Type', 'application/json');
-
         return $response;
     }
 }

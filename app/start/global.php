@@ -46,36 +46,20 @@ Log::useFiles(storage_path() . '/logs/laravel.log');
 |
 */
 
+App::error(function (Jeopardy\Token\Exceptions\TokenException $exception, $code) {
+    Log::error('TokenException: '.$exception);
+
+//    return ErrorResponse::fromErrorCode($exception->getCode());
+});
+
 App::error(function (Exception $exception, $code) {
     Log::error($exception);
 
-    // dd($exception);
-
-    // $api = new Jeopardy\ApiResponse;
-
-    // switch ($code)
-    // {
-    // 	case 400:
-    // 		// return 'test';
-    // 		return $api->errorWrongArgs('Uncaught error');
-
-    // 	case 401:
-    // 		return $api->errorUnauthorized('Uncaught error');
-
-    // 	case 403:
-    // 		return $api->errorForbidden('Uncaught error');
-
-    // 	case 404:
-    // 		return $api->errorNotFound('Uncaught error');
-
-    // 	// case 500:
-    // 	// 	return $api->errorInternalError('Uncaught error');
-
-    // 	// default:
-    // 	// 	return $api->errorInternalError('Unknown error');
-    // }
-
+//     dd($exception);
+//     dd($exception->getCode());
 });
+
+
 
 /*
 |--------------------------------------------------------------------------

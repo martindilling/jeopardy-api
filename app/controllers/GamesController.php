@@ -9,6 +9,11 @@ class GamesController extends ApiController
      */
     protected $eagerLoad = array();
 
+    /**
+     * @var User
+     */
+    protected $currentUser;
+
     //	/**
     //	 * @var integer
     //	 */
@@ -20,6 +25,8 @@ class GamesController extends ApiController
     public function __construct()
     {
         parent::__construct();
+
+        $this->currentUser = $this->getTokenUser();
 
         //		// Get the requested pagination
         //		$requestedPagination = Input::get('paginate');
@@ -50,13 +57,10 @@ class GamesController extends ApiController
      */
     public function index()
     {
-        // Get user from token
-        $user = $this->getTokenUser();
-
         //		if ( isset($this->paginate) ) {
-        //			$games = Game::whereUserId($user->id)->paginate($this->paginate);
+        //			$games = Game::whereUserId($this->currentUser->id)->paginate($this->paginate);
         //		} else {
-        $games = $user->games;
+        $games = $this->currentUser->games;
         //		}
 
         // Eager load if any embeds
@@ -95,7 +99,7 @@ class GamesController extends ApiController
      */
     public function show($id)
     {
-        $game = Game::find($id);
+        $game = Game::where('user_id', $this->currentUser->id)->find($id);
 
         // Is game found with the id
         if (!$game) {

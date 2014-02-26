@@ -2,11 +2,50 @@
 
 return array(
 
-    'BAD_REQUEST'                      => 'Bad Request',
-    'UNAUTHORIZED'                     => 'Unauthorized',
-    'FORBIDDEN'                        => 'Forbidden',
-    'NOT_FOUND'                        => 'Not Found',
-    'INTERNAL_ERROR'                   => 'Internal Error',
+    /**
+     * Token errors
+     * 10001-10006
+     */
+    '10001' => array(
+        'code'      => 10001,
+        'http_code' => 401,
+        'message'   => 'Token missing!',
+        'details'   => '',
+    ),
+    '10002' => array(
+        'code'      => 10002,
+        'http_code' => 401,
+        'message'   => 'Wrong token!',
+        'details'   => '',
+    ),
+    '10003' => array(
+        'code'      => 10003,
+        'http_code' => 401,
+        'message'   => 'Token expired!',
+        'details'   => '',
+    ),
+    '10004' => array(
+        'code'      => 10004,
+        'http_code' => 401,
+        'message'   => 'Credentials failed to validate!',
+        'details'   => '',
+    ),
+    '10005' => array(
+        'code'      => 10005,
+        'http_code' => 401,
+        'message'   => 'Wrong credentials!',
+        'details'   => '',
+    ),
+    '10006' => array(
+        'code'      => 10006,
+        'http_code' => 500,
+        'message'   => 'An unexpected token error has occurred',
+        'details'   => '',
+    ),
+
+
+
+
     /**
      * Unknown error
      */
@@ -46,6 +85,7 @@ return array(
         'message'   => 'The :resource requested was not found.',
         'details'   => 'Could not find the resource [:resource] with id [:id], either it was deleted or it never existed.',
     ),
+
 
 
 );

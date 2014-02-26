@@ -189,7 +189,7 @@ class EloquentTokenRepository implements TokenRepositoryInterface
     {
         Log::info('Deleting token!');
 
-        return $user->getToken()->delete();
+        return $user->token()->delete();
     }
 
     /**
