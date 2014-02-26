@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/', function () {
-    return 'nothing here';
+    return 'There is nothing to show here, as this is an API. Look in the "app/routes.php" file to see what routes you can use to interact with the API.';
 });
 
 Route::group(array('prefix' => 'api/v1'), function () {
