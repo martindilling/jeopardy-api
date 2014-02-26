@@ -13,7 +13,7 @@ return array(
     |
     */
 
-    'debug'     => true,
+    'debug'     => false,
     /*
     |--------------------------------------------------------------------------
     | Application URL
@@ -25,7 +25,7 @@ return array(
     |
     */
 
-    'url'       => 'http://localhost/laravel/projects/jeopardy',
+    'url'       => 'http://jeopardy.eu1.frbit.net',
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
