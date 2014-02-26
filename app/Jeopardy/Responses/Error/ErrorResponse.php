@@ -79,9 +79,10 @@ class ErrorResponse extends ApiResponse
      */
 
     /**
-     * Generates a Response with a 400 HTTP header and a given message.
+     * Return an error response with information from the config file for the error code given.
      *
-     * @return  Response
+     * @param integer $code
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fromErrorCode($code)
     {
@@ -91,6 +92,15 @@ class ErrorResponse extends ApiResponse
             ->setStatusCode($error['http_code'])
             ->respondWithError($error['code'], $error['message'], $error['details']);
     }
+
+
+
+/**
+ * TODO
+ * Everything below here should be rewritten to use the same way of handling errors
+ * as the token does by an internal error code and getting the information from the config
+ */
+
 
     /**
      * Generates a Response with a 400 HTTP header and a given message.

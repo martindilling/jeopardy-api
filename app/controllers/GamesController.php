@@ -28,6 +28,10 @@ class GamesController extends ApiController
 
         $this->currentUser = $this->getTokenUser();
 
+        /**
+         * TODO
+         * Implement pagination
+         */
         //		// Get the requested pagination
         //		$requestedPagination = Input::get('paginate');
         //		// Set the pagination

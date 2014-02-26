@@ -23,10 +23,13 @@ class TokenErrors
         $error = Config::get('errors.' . $code);
         return $error['message'];
 
-        /**
-         * The way I handled it before extracting to the config file
-         * Testing this a little more, before deleting the old entirely
-         */
+
+/**
+ * TODO
+ * The way I handled it before extracting to the config file
+ * Testing this a little more, before deleting the old entirely
+ */
+
 //        switch ($code) {
 //            case self::MISSING:
 //                return 'Token missing!';
