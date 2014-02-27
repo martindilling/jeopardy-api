@@ -10,7 +10,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         if (App::environment() === 'production') {
-            exit('I just stopped you getting fired. Love Phil');
+            $this->command->error('STOP!!!');
+            $this->command->error('You are about to seed your production database!');
+            if (!$this->command->confirm('Continue? [yes|no]')) {
+                $this->command->info('Exiting!');
+                exit();
+            }
         }
 
         Eloquent::unguard();
