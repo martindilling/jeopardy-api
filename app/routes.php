@@ -1,6 +1,26 @@
 <?php
 
 Route::get('/', function () {
+
+    $url_prefix = '/api/v1';
+
+    $icon = (object) array(
+        'auth' => (object) array(
+            'on' => '<span class="glyphicon glyphicon-auth"></span>',
+            'off' => '<span class="glyphicon glyphicon-auth icon-off"></span>',
+        ),
+        'example' => (object) array(
+            'on' => '<span class="example-popup glyphicon glyphicon-flash" title="Show example"></span>',
+            'off' => '<span class="glyphicon glyphicon-flash icon-off" title="Example is missing"></span>',
+            'none' => '<span class="glyphicon glyphicon-ban-circle icon-off" title="Nothing expected"></span>',
+        ),
+        'done' => (object) array(
+            'true' => '<span class="glyphicon glyphicon-ok"></span>',
+            'false' => '',
+        ),
+    );
+
+    return View::make('info', compact('url_prefix', 'icon'));
     return 'There is nothing to show here, as this is an API. Look in the "app/routes.php" file to see what routes you can use to interact with the API.';
 });
 

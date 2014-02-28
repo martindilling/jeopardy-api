@@ -1,0 +1,80 @@
+
+
+/* ==========================================================================
+   Icons
+   ========================================================================== */
+
+.glyphicon-auth:before {
+    content: "\1f512";
+}
+.glyphicon-data-in:before {
+    content: "\e169";
+}
+.glyphicon-data-out:before {
+    content: "\e170";
+}
+.icon-off {
+    color: #cccccc;
+}
+
+.example-popup {
+    color: #802420;
+}
+.example-popup:hover {
+    color: #d62728;
+    cursor: pointer;
+}
+
+
+/* ==========================================================================
+   Table
+   ========================================================================== */
+
+.action-list {
+    font-weight: bold;
+    color: #f6b26b;
+}
+.action-create {
+    font-weight: bold;
+    color: #6aa84f;
+}
+.action-read {
+    font-weight: bold;
+    color: #6d9eeb;
+}
+.action-update {
+    font-weight: bold;
+    color: #c27ba0;
+}
+.action-delete {
+    font-weight: bold;
+    color: #e06666;
+}
+
+
+
+.bootbox-close-button {
+    display: none;
+}
+.bootbox pre {
+    margin-bottom: 0;
+}
+.bootbox .modal-footer {
+    padding: 14px 20px 15px;
+    margin-top: 0;
+}
+
+
+.example {
+    display: none;
+}
+
+/*pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }*/
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
+
+
+
