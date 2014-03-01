@@ -86,6 +86,19 @@ return array(
         'details'   => 'Could not find the resource [:resource] with id [:id], either it was deleted or it never existed.',
     ),
 
+    'single_resource_unauthorized'        => array(
+        'code'      => 301,
+        'http_code' => 401,
+        'message'   => 'You are not authorized to view this :resource.',
+        'details'   => 'The authorized user does not have permission to view resource [:resource] with id [:id].',
+    ),
+
+    'nothing_created_yet'        => array(
+        'code'      => 302,
+        'http_code' => 404,
+        'message'   => 'No :resources created yet.',
+        'details'   => 'Could not find the resource [:resource] with id [:id], either it was deleted or it never existed.',
+    ),
 
 
 );

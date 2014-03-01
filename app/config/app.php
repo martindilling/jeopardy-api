@@ -2,6 +2,11 @@
 
 return array(
 
+    'analytics' => array(
+        'code' => getenv('ANALYTICS_CODE'),
+        'site' => getenv('ANALYTICS_SITE'),
+    ),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

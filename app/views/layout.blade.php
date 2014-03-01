@@ -6,8 +6,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Jeopardy API</title>
-    <meta name="description" content="">
+    <title>Jeopardy API - Guide</title>
+    <meta name="description" content="An API to allow users to create their own Jeopardy game with categories and questions.">
     <meta name="viewport" content="width=device-width">
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -20,7 +20,7 @@
     <![endif]-->
 </head>
 <body>
-    <!--[if lt IE 7]>
+    <!--[if lt IE 8]>
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
@@ -37,10 +37,13 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <script>
-        var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src='//www.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '{{ Config::get('app.analytics.code') }}', '{{ Config::get('app.analytics.site') }}');
+        ga('send', 'pageview');
     </script>
 </body>
 </html>

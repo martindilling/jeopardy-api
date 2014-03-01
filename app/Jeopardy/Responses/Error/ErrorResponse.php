@@ -151,14 +151,20 @@ class ErrorResponse extends ApiResponse
     }
 
     /**
-     * Generates a Response with a 400 HTTP header and a given message.
+     * Generates a Response with a 401 HTTP header and a given message.
      *
      * @param string $message
      * @return  Response
      */
-    public function errorBadRequest($message = 'Bad Request')
+    public function singleResourceUnauthorized($resourcename, $id)
     {
-        return $this->setStatusCode(400)->respondWithError(Config::get('errors.CODE_BAD_REQUEST'), $message);
+        $error = Config::get('errors.single_resource_unauthorized');
+        $error = $this->doReplacements($error, ':resource', $resourcename);
+        $error = $this->doReplacements($error, ':id', $id);
+
+        return $this
+            ->setStatusCode($error['http_code'])
+            ->respondWithError($error['code'], $error['message'], $error['details']);
     }
 
     /**
@@ -167,10 +173,40 @@ class ErrorResponse extends ApiResponse
      * @param string $message
      * @return  Response
      */
-    public function errorUnauthorized($message = 'Unauthorized')
+    public function nothingCreatedYet($resources)
     {
-        return $this->setStatusCode(401)->respondWithError(Config::get('errors.CODE_UNAUTHORIZED'), $message);
+        $error = Config::get('errors.nothing_created_yet');
+        $error = $this->doReplacements($error, ':resources', $resources);
+
+        return $this
+            ->setStatusCode($error['http_code'])
+            ->respondWithError($error['code'], $error['message'], $error['details']);
     }
+
+
+
+
+    /**
+     * Generates a Response with a 400 HTTP header and a given message.
+     *
+     * @param string $message
+     * @return  Response
+     */
+    // public function errorBadRequest($message = 'Bad Request')
+    // {
+    //     return $this->setStatusCode(400)->respondWithError(Config::get('errors.CODE_BAD_REQUEST'), $message);
+    // }
+
+    /**
+     * Generates a Response with a 401 HTTP header and a given message.
+     *
+     * @param string $message
+     * @return  Response
+     */
+    // public function errorUnauthorized($message = 'Unauthorized')
+    // {
+    //     return $this->setStatusCode(401)->respondWithError(Config::get('errors.CODE_UNAUTHORIZED'), $message);
+    // }
 
     /**
      * Generates a Response with a 403 HTTP header and a given message.
@@ -178,10 +214,10 @@ class ErrorResponse extends ApiResponse
      * @param string $message
      * @return  Response
      */
-    public function errorForbidden($message = 'Forbidden')
-    {
-        return $this->setStatusCode(403)->respondWithError(Config::get('errors.CODE_FORBIDDEN'), $message);
-    }
+    // public function errorForbidden($message = 'Forbidden')
+    // {
+    //     return $this->setStatusCode(403)->respondWithError(Config::get('errors.CODE_FORBIDDEN'), $message);
+    // }
 
     /**
      * Generates a Response with a 404 HTTP header and a given message.
@@ -189,10 +225,10 @@ class ErrorResponse extends ApiResponse
      * @param string $message
      * @return  Response
      */
-    public function errorNotFound($message = 'Resource Not Found')
-    {
-        return $this->setStatusCode(404)->respondWithError(Config::get('errors.CODE_NOT_FOUND'), $message);
-    }
+    // public function errorNotFound($message = 'Resource Not Found')
+    // {
+    //     return $this->setStatusCode(404)->respondWithError(Config::get('errors.CODE_NOT_FOUND'), $message);
+    // }
 
     /**
      * Generates a Response with a 500 HTTP header and a given message.
@@ -200,8 +236,8 @@ class ErrorResponse extends ApiResponse
      * @param string $message
      * @return  Response
      */
-    public function errorInternalError($message = 'Internal Error')
-    {
-        return $this->setStatusCode(500)->respondWithError(Config::get('errors.CODE_INTERNAL_ERROR'), $message);
-    }
+    // public function errorInternalError($message = 'Internal Error')
+    // {
+    //     return $this->setStatusCode(500)->respondWithError(Config::get('errors.CODE_INTERNAL_ERROR'), $message);
+    // }
 }

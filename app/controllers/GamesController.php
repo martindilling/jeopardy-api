@@ -103,11 +103,15 @@ class GamesController extends ApiController
      */
     public function show($id)
     {
-        $game = Game::where('user_id', $this->currentUser->id)->find($id);
+        $game = Game::find($id);
 
         // Is game found with the id
         if (!$game) {
             return ErrorResponse::singleResourceNotFound('game', $id);
+        }
+
+        if ($game->user_id != $this->currentUser->id) {
+            return ErrorResponse::singleResourceUnauthorized('game', $id);
         }
 
         // Eager load if any embeds
