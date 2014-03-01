@@ -49,7 +49,7 @@ Log::useFiles(storage_path() . '/logs/laravel.log');
 App::error(function (Jeopardy\Token\Exceptions\TokenException $exception, $code) {
     Log::error('TokenException: '.$exception);
 
-//    return ErrorResponse::fromErrorCode($exception->getCode());
+    return ErrorResponse::fromErrorCode($exception->getCode());
 });
 
 App::error(function (Exception $exception, $code) {
