@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Jeopardy API - Guide</title>
-    <meta name="description" content="">
+    <meta name="description" content="An API to allow users to create their own Jeopardy game with categories and questions.">
     <meta name="viewport" content="width=device-width">
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
