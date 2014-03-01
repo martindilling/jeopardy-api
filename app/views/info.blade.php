@@ -188,11 +188,11 @@
                         <pre class="example"></pre>
                     </td>
                     <td>
-                        {{ $icon->example->off }}
-                        <pre class="example"></pre>
+                        {{ $icon->example->on }}
+                        <pre class="example">{"data":{"id":2,"user_id":1,"active":true,"name":"Ullam eaque est voluptates.","answer_time":40,"created_at":"2014-02-28 01:58:20","updated_at":"2014-02-28 01:58:20"},"embeds":["user","difficulties","categories"]}</pre>
                     </td>
                     <td>200</td>
-                    <td>{{ $icon->done->false }}</td>
+                    <td>{{ $icon->done->true }}</td>
                 </tr>
                 <tr>
                     <td class="action-update">Update</td>
@@ -229,22 +229,6 @@
                 <tr>
                     <td class="action-list">List</td>
                     <td>GET</td>
-                    <td>{{ $url_prefix }}/games/{id}/difficulties</td>
-                    <td>{{ $icon->auth->on }}</td>
-                    <td>
-                        {{ $icon->example->none }}
-                        <pre class="example"></pre>
-                    </td>
-                    <td>
-                        {{ $icon->example->off }}
-                        <pre class="example"></pre>
-                    </td>
-                    <td>200</td>
-                    <td>{{ $icon->done->false }}</td>
-                </tr>
-                <tr>
-                    <td class="action-list">List</td>
-                    <td>GET</td>
                     <td>{{ $url_prefix }}/games/{id}/catgories</td>
                     <td>{{ $icon->auth->on }}</td>
                     <td>
@@ -252,11 +236,27 @@
                         <pre class="example"></pre>
                     </td>
                     <td>
-                        {{ $icon->example->off }}
-                        <pre class="example"></pre>
+                        {{ $icon->example->on }}
+                        <pre class="example">{"data":[{"id":1,"game_id":1,"active":true,"order":1,"name":"Aut et.","created_at":"2014-02-28 01:58:21","updated_at":"2014-02-28 01:58:21"},{"id":2,"game_id":1,"active":false,"order":2,"name":"Qui.","created_at":"2014-02-28 01:58:21","updated_at":"2014-02-28 01:58:21"},{"id":3,"game_id":1,"active":false,"order":3,"name":"Voluptatum.","created_at":"2014-02-28 01:58:21","updated_at":"2014-02-28 01:58:21"}],"embeds":["game","questions"]}</pre>
                     </td>
                     <td>200</td>
-                    <td>{{ $icon->done->false }}</td>
+                    <td>{{ $icon->done->true }}</td>
+                </tr>
+                <tr>
+                    <td class="action-list">List</td>
+                    <td>GET</td>
+                    <td>{{ $url_prefix }}/games/{id}/difficulties</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->on }}
+                        <pre class="example">{"data":[{"id":1,"game_id":1,"order":1,"name":"Maxime.","points":100,"created_at":"2014-02-28 01:58:22","updated_at":"2014-02-28 01:58:22"},{"id":2,"game_id":1,"order":2,"name":"Vel ipsum.","points":200,"created_at":"2014-02-28 01:58:22","updated_at":"2014-02-28 01:58:22"}],"embeds":["game","questions"]}</pre>
+                    </td>
+                    <td>200</td>
+                    <td>{{ $icon->done->true }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -269,7 +269,86 @@
                     @include('tableheaders')
                 </thead>
                 <tbody>
-
+                <tr>
+                    <td class="action-create">Create</td>
+                    <td>POST</td>
+                    <td>{{ $url_prefix }}/categories</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>201</td>
+                    <td>{{ $icon->done->false }}</td>
+                </tr>
+                <tr>
+                    <td class="action-read">Read</td>
+                    <td>GET</td>
+                    <td>{{ $url_prefix }}/categories/{id}</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->on }}
+                        <pre class="example">{"data":{"id":2,"game_id":1,"active":false,"order":2,"name":"Qui.","created_at":"2014-02-28 01:58:21","updated_at":"2014-02-28 01:58:21"},"embeds":["game","questions"]}</pre>
+                    </td>
+                    <td>200</td>
+                    <td>{{ $icon->done->true }}</td>
+                </tr>
+                <tr>
+                    <td class="action-update">Update</td>
+                    <td>POST</td>
+                    <td>{{ $url_prefix }}/categories/{id}</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>200</td>
+                    <td>{{ $icon->done->false }}</td>
+                </tr>
+                <tr>
+                    <td class="action-delete">Delete</td>
+                    <td>DELETE</td>
+                    <td>{{ $url_prefix }}/categories/{id}</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>204</td>
+                    <td>{{ $icon->done->false }}</td>
+                </tr>
+                <tr>
+                    <td class="action-list">List</td>
+                    <td>GET</td>
+                    <td>{{ $url_prefix }}/categories/{id}/questions</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->on }}
+                        <pre class="example">{"data":[{"id":1,"category_id":1,"difficulty_id":1,"question":"Aut consequatur sint qui aperiam tempore quia.","answer":"Lelah Ebert","created_at":"2014-02-28 01:58:24","updated_at":"2014-02-28 01:58:24"},{"id":2,"category_id":1,"difficulty_id":2,"question":"Quibusdam possimus voluptates qui soluta eligendi qui.","answer":"Dereck Mayer","created_at":"2014-02-28 01:58:24","updated_at":"2014-02-28 01:58:24"}],"embeds":["category","difficulty"]}</pre>
+                    </td>
+                    <td>200</td>
+                    <td>{{ $icon->done->true }}</td>
+                </tr>
                 </tbody>
             </table>
 
@@ -281,7 +360,70 @@
                     @include('tableheaders')
                 </thead>
                 <tbody>
-
+                <tr>
+                    <td class="action-create">Create</td>
+                    <td>POST</td>
+                    <td>{{ $url_prefix }}/difficulties</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>201</td>
+                    <td>{{ $icon->done->false }}</td>
+                </tr>
+                <tr>
+                    <td class="action-read">Read</td>
+                    <td>GET</td>
+                    <td>{{ $url_prefix }}/difficulties/{id}</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->on }}
+                        <pre class="example">{"data":{"id":2,"game_id":1,"order":2,"name":"Vel ipsum.","points":200,"created_at":"2014-02-28 01:58:22","updated_at":"2014-02-28 01:58:22"},"embeds":["game","questions"]}</pre>
+                    </td>
+                    <td>200</td>
+                    <td>{{ $icon->done->true }}</td>
+                </tr>
+                <tr>
+                    <td class="action-update">Update</td>
+                    <td>POST</td>
+                    <td>{{ $url_prefix }}/difficulties/{id}</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>200</td>
+                    <td>{{ $icon->done->false }}</td>
+                </tr>
+                <tr>
+                    <td class="action-delete">Delete</td>
+                    <td>DELETE</td>
+                    <td>{{ $url_prefix }}/difficulties/{id}</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>204</td>
+                    <td>{{ $icon->done->false }}</td>
+                </tr>
                 </tbody>
             </table>
 
@@ -293,7 +435,70 @@
                     @include('tableheaders')
                 </thead>
                 <tbody>
-
+                <tr>
+                    <td class="action-create">Create</td>
+                    <td>POST</td>
+                    <td>{{ $url_prefix }}/questions</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>201</td>
+                    <td>{{ $icon->done->false }}</td>
+                </tr>
+                <tr>
+                    <td class="action-read">Read</td>
+                    <td>GET</td>
+                    <td>{{ $url_prefix }}/questions/{id}</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->on }}
+                        <pre class="example">{"data":{"id":2,"category_id":1,"difficulty_id":2,"question":"Quibusdam possimus voluptates qui soluta eligendi qui.","answer":"Dereck Mayer","created_at":"2014-02-28 01:58:24","updated_at":"2014-02-28 01:58:24"},"embeds":["category","difficulty"]}</pre>
+                    </td>
+                    <td>200</td>
+                    <td>{{ $icon->done->true }}</td>
+                </tr>
+                <tr>
+                    <td class="action-update">Update</td>
+                    <td>POST</td>
+                    <td>{{ $url_prefix }}/questions/{id}</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->off }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>200</td>
+                    <td>{{ $icon->done->false }}</td>
+                </tr>
+                <tr>
+                    <td class="action-delete">Delete</td>
+                    <td>DELETE</td>
+                    <td>{{ $url_prefix }}/questions/{id}</td>
+                    <td>{{ $icon->auth->on }}</td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>
+                        {{ $icon->example->none }}
+                        <pre class="example"></pre>
+                    </td>
+                    <td>204</td>
+                    <td>{{ $icon->done->false }}</td>
+                </tr>
                 </tbody>
             </table>
 
