@@ -2,7 +2,12 @@
 
 @section('main')
 
-    <h1>Jeopardy API - Guide</h1>
+    <h1 class="page-header">Jeopardy API - Guide</h1>
+    <div class="well" style="margin-bottom: 0;">
+        Here you can see the information about the available routes for the API.<br>
+        Click the red lightningbolts to see examples of the data needed to be send,
+        and the results you can expect to get back.
+    </div>
 
     <div class="row">
         <div class="col-md-12">
